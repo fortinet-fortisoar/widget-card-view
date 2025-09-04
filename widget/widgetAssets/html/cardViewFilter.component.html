@@ -1,0 +1,80 @@
+<!-- Copyright start
+  MIT License
+  Copyright (c) 2025 Fortinet Inc
+  Copyright end -->
+<div class="filterContainer">   
+    <uib-accordion>
+        <div uib-accordion-group is-open=true class="queue-card-wrapper panel-default filterGroup">        
+                <div class="queue-card-header padding-left-md padding-right-12">
+                    <div class="pull-left queue-card-header-text"
+                        data-ng-class="{'queue-text-active-color': $ctrl.filterTabOpen}" >{{ ::'EDITOR.PORTER.FILTERS' | translate }}</div>
+                        <button type="button" data-ng-disabled="$ctrl.searchByTags.recordTags.length === 0 && $ctrl.filteredArray.length===0" class="btn btn-sm btn-default padding-0 padding-right-sm padding-left-sm pull-right margin-right-33" 
+                                data-ng-click="$ctrl.clearAllFiltersAndTags($event)" id="clear-filter-btn" title="{{ ::'COMPONENTS.GRID.CLEAR_ALL' | translate }}">
+                                <span class="font-9px">{{ ::'COMPONENTS.GRID.CLEAR_ALL' | translate }}</span></button>
+                    <div class="clearfix"></div>
+                </div>
+           <div class="accordionContainer">
+            <!-- Content Type -->
+            <uib-accordion data-ng-repeat="element in $ctrl.filterSection" data-ng-show="element.values.length > 0">
+                <div uib-accordion-group is-open="element.open" class="filter-header queue-card-wrapper panel-default">
+                    <uib-accordion-heading>
+                        <div class="queue-card-header padding-left-md padding-right-12">
+                            <div class="margin-right-sm pull-left"><span class="queue-card-actions">&nbsp;<i
+                                        class="fa {{element.open ? 'fa-chevron-down' : 'fa-chevron-right'}}"></i></span>
+                            </div>
+                            <div class="pull-left queue-card-header-text margin-right-3" disable-button
+                                data-ng-class="{'queue-text-active-color': element.open || element.singleSelected}">{{element.name}}</div>
+                            <button type="button" data-ng-show="element.open" class="btn btn-sm btn-default margin-top-negative-3 padding-0 padding-right-sm padding-left-sm pull-right" 
+                                data-ng-disabled="!element.singleSelected" data-ng-click="$ctrl.clearFilter($event,element.type)" id="clear-filter-btn" title="{{ ::'COMPONENTS.DATETIME_PICKER.CLEAR' | translate }}">
+                                <span class="font-9px">{{ ::'COMPONENTS.DATETIME_PICKER.CLEAR' | translate }}</span></button>
+                            <div class="clearfix"></div>
+                        </div>
+                    </uib-accordion-heading>
+                    <!-- content type search -->
+                    <div class="margin-right-lg margin-top-md position-relative filterSearch">
+                        <span class="font-075em icon icon-search position-absolute margin-left-sm"></span>
+                        <span ng-show="element.searchFilter.length>0" class="icon icon-close margin-top-sm position-absolute right-10" data-ng-click="$ctrl.clearFilterSearch(element.type)"></span>
+                        <input id="search" type="text" class="form-control padding-right-30 padding-left-xlg" 
+                            data-ng-keydown="$event.stopPropagation();" placeholder="{{ ::'APP.LABEL.SEARCH' | translate }}"
+                            aria-labelledby="search-btn" data-ng-model="element.searchFilter"
+                            aria-invalid="false">
+                    </div>
+                    <!-- content type listing -->
+                    <div class="padding-bottom-md padding-right-lg padding-top-sm filterContent">
+                        <div data-ng-repeat="type in element.values | filter:element.searchFilter" class="align-items-start margin-top-sm display-flex margin-bottom-sm">
+                            <input type="checkbox" class="margin-left-sm margin-right-md" name="select-type-{{type}}"
+                                id="select-type-{{type}}"
+                                data-ng-model="element.selectionList[type]" data-ng-change="$ctrl._updateFilterSelection()"></input>
+                            <label for="select-type-{{type}}" class="font-size-12 muted labelClass">{{type}}</label>
+                        </div>
+                    </div>
+                </div>
+            </uib-accordion>
+            <!--search by tags accordion-->
+            <uib-accordion class="searchByTags">
+                <div uib-accordion-group is-open="$ctrl.searchByTags.open" class="queue-card-wrapper panel-default">
+                    <uib-accordion-heading>
+                        <div class="queue-card-header padding-right-12 searchByTag">
+                            <div class="margin-right-sm pull-left"><span class="queue-card-actions">&nbsp;
+                                <i class="fa {{$ctrl.searchByTags.open ? 'fa-chevron-down' : 'fa-chevron-right'}}"></i></span>
+                            </div>
+                            <div class="pull-left queue-card-header-text margin-right-3" disable-button
+                                data-ng-class="{'queue-text-active-color': $ctrl.searchByTags.open}">{{ ::'MARKETPLACE.MP_TEMPLATES.SEARCH_BY_TAGS' | translate }}</div>
+                            <button type="button" data-ng-show="$ctrl.searchByTags.open" data-ng-disabled="$ctrl.searchByTags.recordTags.length === 0" class="btn btn-sm btn-default padding-0 padding-right-sm padding-left-sm pull-right" 
+                                data-ng-click="$ctrl.clearFilter($event,'tag')" id="clear-filter-btn" title="{{ ::'COMPONENTS.DATETIME_PICKER.CLEAR' | translate }}"><span class="font-9px">{{ ::'COMPONENTS.DATETIME_PICKER.CLEAR' | translate }}</span></button>
+                            <div class="clearfix"></div>
+                        </div>
+                    </uib-accordion-heading>
+                    <!-- tag search -->
+                    <div class="margin-right-lg margin-top-md margin-bottom-md position-relative filterSearch">
+                        <div class="cs-tags-container">
+                        <div data-cs-tags="$ctrl.searchByTags.tagsField" data-allow-add-tag="false" data-change-method="$ctrl.tagsChanged" data-ng-model="$ctrl.searchByTags.recordTags"
+                            placeholder="$ctrl.searchByTags.placeholder" class="position-relative">
+                        </div>
+                        </div>
+                    </div>
+            </uib-accordion>
+        </div>
+        </div>
+    </uib-accordion>
+</div>
