@@ -65,6 +65,7 @@
         var pagedCollection = new PagedCollection($scope.config.module, null);
         pagedCollection.query = new Query($scope.params.query);
         pagedCollection.query.__selectFields = [$scope.config.mapping.cardHeader, $scope.config.mapping.image, $scope.config.mapping.cardSubHeader, $scope.config.mapping.subtitle1, $scope.config.mapping.subtitle2];
+        pagedCollection.currPageNum = $scope.pageCount || 1;
         pagedCollection.loadGridRecord(pagedCollection.query).then(function () {
             if($scope.pageCount === 1){
                 $scope.allContentItems = [];
