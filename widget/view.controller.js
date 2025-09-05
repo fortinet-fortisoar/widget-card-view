@@ -101,7 +101,7 @@
 
       function searchContent() {
         const searchText = ($scope.params.searchText || '').trim();
-        const filters = $scope.params.query.filters;
+        const filters = $scope.params.query.filters || [];
 
         if (searchText) {
           // Apply title filter
