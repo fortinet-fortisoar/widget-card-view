@@ -49,6 +49,7 @@
       $scope.pageCount = 1;
       $scope.marketPlaceFilterExpand = true;
       $scope.widgetCSS = widgetBasePath + 'widgetAssets/css/cardView.css';
+      $scope.widgetBasePath = widgetBasePath;
       $scope.onViewUpdated = onViewUpdated;
 
       function getList(forceReload) {

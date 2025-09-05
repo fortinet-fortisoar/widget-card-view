@@ -3,7 +3,7 @@
   Copyright (c) 2025 Fortinet Inc
   Copyright end -->
 <link rel="stylesheet" type="text/css" href="{{widgetCSS}}" />
-<div class="threat-actor-intel-container">
+<div class="card-view-container">
     <div class="marketplace-container">
         <div class="col-md-2 padding-0 filterContainer default-animation animate__slideInLeft" data-ng-class="{'on-filter-collapsed':!marketPlaceFilterExpand}">
             <card-view-filter-component on-view-change="onViewUpdated($event)" config="config" data-ng-show="marketPlaceFilterExpand"></card-view-filter-component>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="tileViewContainer margin-top-sm padding-left-xlg" on-scroll-to-bottom="loadNextContent()" data-offset-height="3" data-ng-if="allContentItemsCount > 0">
-                        <card-view-tile-component config="config" fields-array="fieldsArray" content-item="contentItem" last-content-item="$last" data-ng-repeat="contentItem in allContentItems" data-refresh-list="searchContent()"></card-view-tile-component>
+                        <card-view-tile-component config="config" fields-array="fieldsArray" content-item="contentItem" last-content-item="$last" data-ng-repeat="contentItem in allContentItems" data-refresh-list="searchContent()" data-widget-base-path="widgetBasePath"></card-view-tile-component>
                     </div>
                 </div>
                 <div class="emptyContent"  data-ng-class="{'emptyTileWithoutFilter' : filterListing.length === 0}"  data-ng-show="allContentItemsCount === 0" ng-include="'app/marketplace/templates/noResult.html'"></div>

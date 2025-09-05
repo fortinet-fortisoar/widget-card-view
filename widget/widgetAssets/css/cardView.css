@@ -2,7 +2,7 @@
   MIT License
   Copyright (c) 2025 Fortinet Inc
   Copyright end */
-.threat-actor-intel-container{
+.card-view-container{
     height: calc(100vh - 200px);
      .marketplace-container {
        .marketplace-content {
@@ -40,7 +40,7 @@
         }
     } 
     
-    .threat-actor-intel-card-container {
+    .card-view-tile-container {
         display: inline-flex;
         width: 100%;
         .threat-actor-intel-card {
@@ -66,6 +66,25 @@
     .filterContent {
         max-height: 350px;
     }
+
+    .accordionContainer {
+        & .filter-header {
+            .panel-heading {
+                height: 45px !important;
+                border-left: none !important;
+                border-right: none !important;
+                padding: 0 !important;
+            }
+        }
+
+        & .searchByTags {
+            .panel-heading {
+                height: auto !important;
+                border-bottom: inherit !important;
+                padding: 0 !important;
+            }
+        }
+    }
 }
 
 #main-view-template {
@@ -75,25 +94,6 @@
             border-left: none !important;
             border-right: none !important;
             border-bottom: none !important;
-        }
-    }
-}
-
-.accordionContainer {
-    & .filter-header {
-        .panel-heading {
-            height: 45px !important;
-            border-left: none !important;
-            border-right: none !important;
-            padding: 0 !important;
-        }
-    }
-
-    & .searchByTags {
-        .panel-heading {
-            height: auto !important;
-            border-bottom: inherit !important;
-            padding: 0 !important;
         }
     }
 }

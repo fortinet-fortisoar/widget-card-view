@@ -13,7 +13,7 @@
       self.$filter = $filter;
       self.appModulesService = appModulesService;
       self.appDatetimeFormat = $rootScope.appDatetimeFormat;
-      self.defaultImage = 'widgets/installed/cardView-1.0.0/widgetAssets/images/default_image.png';
+      self.defaultImage = self.widgetBasePath + 'widgetAssets/images/default_image.png';
     }
 
     $onInit() {
@@ -44,7 +44,8 @@
       fieldsArray: '<',
       contentItem: '<',
       refreshList: '&',
-      lastContentItem: '<'
+      lastContentItem: '<',
+      widgetBasePath: '<'
     },
     controller: ['$state', '$filter', 'appModulesService', '$rootScope',
        cardViewTileComponent,
