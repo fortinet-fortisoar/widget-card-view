@@ -1,0 +1,23 @@
+{
+    "name": "cardView",
+    "title": "Card View",
+    "subTitle": "Dynamic JSON to Card Viewer",
+    "version": "1.0.0",
+    "published_date": 1756997474,
+    "releaseNotes": "unavailable",
+    "metadata": {
+        "description": "Reads JSON data and dynamically generates a responsive card listing. Each card adapts to the available properties, offering a clean, structured preview of information.",
+        "pages": [
+            "Dashboard",
+            "Reports",
+            "Listing"
+        ],
+        "certified": "No",
+        "publisher": "Fortinet",
+        "compatibility": [
+            "7.6.3",
+            "7.6.4"
+        ]
+    },
+    "development": true
+}
