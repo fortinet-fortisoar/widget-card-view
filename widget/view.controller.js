@@ -8,9 +8,9 @@
       .module('cybersponse')
       .controller('cardView100Ctrl', cardView100Ctrl);
 
-    cardView100Ctrl.$inject = ['$scope', 'widgetUtilityService', 'PagedCollection', 'Query', 'widgetBasePath', '_', 'config', 'Entity'];
+    cardView100Ctrl.$inject = ['$scope', 'widgetUtilityService', 'PagedCollection', 'Query', 'widgetBasePath', '_', 'config', 'Entity', '$rootScope'];
 
-    function cardView100Ctrl($scope, widgetUtilityService, PagedCollection, Query, widgetBasePath, _, config, Entity) {
+    function cardView100Ctrl($scope, widgetUtilityService, PagedCollection, Query, widgetBasePath, _, config, Entity, $rootScope) {
       $scope.params = {
         searchText: '',
         query: {
@@ -51,6 +51,7 @@
       $scope.widgetCSS = widgetBasePath + 'widgetAssets/css/cardView.css';
       $scope.widgetBasePath = widgetBasePath;
       $scope.onViewUpdated = onViewUpdated;
+      $scope.theme = $rootScope.theme.id;
 
       function getList(forceReload) {
         if (forceReload) {

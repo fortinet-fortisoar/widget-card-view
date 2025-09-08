@@ -11,10 +11,11 @@
             </div>
             <div class="mp-content-fixed-height" data-ng-class="{'margin-bottom-42': $ctrl.contentItem[$ctrl.config.mapping.subtitle2].length === 0 }">
                 <h4 class="mp-tile-title margin-top-4 word-break truncate" title="{{$ctrl.contentItem[$ctrl.config.mapping.cardHeader]}}">{{$ctrl.contentItem[$ctrl.config.mapping.cardHeader]}}</h4>
-                <div class="mp-tile-details">
+                <div class="mp-tile-details mp-solutionpack-contents">
                     <p class="margin-0 truncate" title="{{$ctrl.contentItem[$ctrl.config.mapping.subtitle1]}}"><span class="muted">Type:</span>{{$ctrl.contentItem[$ctrl.config.mapping.subtitle1]}}</p>
-                    <div class="card-view-tile-container">
-                        <label data-ng-if="$ctrl.contentItem[$ctrl.config.mapping.subtitle2].length > 0" title="{{$ctrl.contentItem[$ctrl.config.mapping.subtitle2][0]}}" class="font-size-12 threat-actor-intel-card margin-top-md margin-right-md text-capitalize truncate" data-ng-class="{'width-66per': $ctrl.contentItem[$ctrl.config.mapping.subtitle2].length > 1}">{{$ctrl.contentItem[$ctrl.config.mapping.subtitle2][0]}}</label><span class="font-size-12 active-color margin-top-lg" data-ng-if="$ctrl.contentItem[$ctrl.config.mapping.subtitle2].length > 1">+{{$ctrl.contentItem[$ctrl.config.mapping.subtitle2].length - 1}} more</span>
+                    <div class="margin-top-md">
+                        <div data-ng-if="$ctrl.contentItem[$ctrl.config.mapping.subtitle2].length > 0" title="{{$ctrl.contentItem[$ctrl.config.mapping.subtitle2][0]}}" class="display-block mp-solutionpack-contents-card font-size-12 text-capitalize truncate pull-left" data-ng-class="{'width-66per': $ctrl.contentItem[$ctrl.config.mapping.subtitle2].length > 1, 'max-width-100': $ctrl.contentItem[$ctrl.config.mapping.subtitle2].length == 1}">{{$ctrl.contentItem[$ctrl.config.mapping.subtitle2][0]}}</div><span class="font-size-12 active-color margin-top-lg margin-left-md" data-ng-if="$ctrl.contentItem[$ctrl.config.mapping.subtitle2].length > 1">+{{$ctrl.contentItem[$ctrl.config.mapping.subtitle2].length - 1}} more</span>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>

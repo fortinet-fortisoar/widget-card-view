@@ -43,15 +43,17 @@
     .card-view-tile-container {
         display: inline-flex;
         width: 100%;
-        .threat-actor-intel-card {
-            background: #29323e;
-            padding: 5px 10px;
-            border: 1px solid #0d1218;
-            border-radius: 3px;
-        }
     }
 
-    .filterContainer  {
+    .filterContainer-light  {
+        border-right: 1px solid #D8DEE4;;
+    }
+
+    .filterContainer-steel  {
+        border-right: 1px solid #0d1218;;
+    }
+
+    .filterContainer-dark  {
         border-right: 1px solid #0d1218;;
     }
 
