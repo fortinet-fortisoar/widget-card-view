@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="{{widgetCSS}}" />
 <div class="card-view-container">
     <div class="marketplace-container">
-        <div class="col-md-2 padding-0 filterContainer default-animation animate__slideInLeft" data-ng-class="{'on-filter-collapsed':!marketPlaceFilterExpand}">
+        <div class="col-md-2 padding-0 default-animation animate__slideInLeft" data-ng-class="{'on-filter-collapsed':!marketPlaceFilterExpand, 'filterContainer-light': theme === 'light', 'filterContainer-steel': theme === 'steel', 'filterContainer-dark': theme === 'dark'}">
             <card-view-filter-component on-view-change="onViewUpdated($event)" config="config" data-ng-show="marketPlaceFilterExpand"></card-view-filter-component>
             <button type="button" class="btn btn-sm btn-default marketplacefilter-collapseArrow" data-ng-click="toggleFilterPanel()">
                 <i class="fa font-size-16" data-ng-class="marketPlaceFilterExpand?'fa-angle-double-left':'fa-angle-double-right'"></i>

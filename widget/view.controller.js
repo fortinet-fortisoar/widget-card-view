@@ -8,9 +8,9 @@
       .module('cybersponse')
       .controller('cardView100Ctrl', cardView100Ctrl);
 
-    cardView100Ctrl.$inject = ['$scope', 'widgetUtilityService', 'PagedCollection', 'Query', 'widgetBasePath', '_', 'config', 'Entity'];
+    cardView100Ctrl.$inject = ['$scope', 'widgetUtilityService', 'PagedCollection', 'Query', 'widgetBasePath', '_', 'config', 'Entity', '$rootScope'];
 
-    function cardView100Ctrl($scope, widgetUtilityService, PagedCollection, Query, widgetBasePath, _, config, Entity) {
+    function cardView100Ctrl($scope, widgetUtilityService, PagedCollection, Query, widgetBasePath, _, config, Entity, $rootScope) {
       $scope.params = {
         searchText: '',
         query: {
@@ -51,6 +51,7 @@
       $scope.widgetCSS = widgetBasePath + 'widgetAssets/css/cardView.css';
       $scope.widgetBasePath = widgetBasePath;
       $scope.onViewUpdated = onViewUpdated;
+      $scope.theme = $rootScope.theme.id;
 
       function getList(forceReload) {
         if (forceReload) {
@@ -62,7 +63,6 @@
           $scope.params.query.filters = [];
         }
         $scope.params.query.page = $scope.pageCount || 1;
-        $scope.processing = true;
         var pagedCollection = new PagedCollection($scope.config.module, null);
         pagedCollection.query = new Query($scope.params.query);
         pagedCollection.query.__selectFields = [$scope.config.mapping.cardHeader, $scope.config.mapping.image, $scope.config.mapping.cardSubHeader, $scope.config.mapping.subtitle1, $scope.config.mapping.subtitle2];
@@ -203,6 +203,7 @@
 
       function init() {
         // To handle backward compatibility for widget
+        $scope.processing = true;
         _handleTranslations();
         getList();
         loadAttributes();
