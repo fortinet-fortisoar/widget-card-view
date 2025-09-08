@@ -23,6 +23,10 @@
       }
     }
 
+    getPlainText(html) {
+        return html ? html.replace(/<[^>]+>/g, '') : '';
+    }
+
     //On click function for tiles in listing
     onClickDetailPanel(selectedItem) {
     let module = self.config.module;

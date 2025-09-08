@@ -63,7 +63,6 @@
           $scope.params.query.filters = [];
         }
         $scope.params.query.page = $scope.pageCount || 1;
-        $scope.processing = true;
         var pagedCollection = new PagedCollection($scope.config.module, null);
         pagedCollection.query = new Query($scope.params.query);
         pagedCollection.query.__selectFields = [$scope.config.mapping.cardHeader, $scope.config.mapping.image, $scope.config.mapping.cardSubHeader, $scope.config.mapping.subtitle1, $scope.config.mapping.subtitle2];
@@ -204,6 +203,7 @@
 
       function init() {
         // To handle backward compatibility for widget
+        $scope.processing = true;
         _handleTranslations();
         getList();
         loadAttributes();

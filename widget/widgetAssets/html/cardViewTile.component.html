@@ -19,7 +19,7 @@
                     </div>
                 </div>
             </div>
-            <span data-uib-tooltip-html="'{{$ctrl.contentItem[$ctrl.config.mapping.cardSubHeader].replaceAll('\'', '')}}'" data-tooltip-append-to-body="true" data-tooltip-placement="top">
+            <span data-uib-tooltip-html="'{{$ctrl.getPlainText($ctrl.contentItem[$ctrl.config.mapping.cardSubHeader].replaceAll('\'', ''))}}'" data-tooltip-append-to-body="true" data-tooltip-placement="top">
                 <p class="mp-tile-description muted-80">{{ $ctrl.contentItem[$ctrl.config.mapping.cardSubHeader] | stripTags }}</p>
             </span>
         </div>
