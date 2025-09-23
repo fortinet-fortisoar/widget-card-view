@@ -90,12 +90,14 @@
 }
 
 #main-view-template {
-    & .queue-card-wrapper {
-        .panel-heading {
-            height: 0px;
-            border-left: none !important;
-            border-right: none !important;
-            border-bottom: none !important;
+    & .filterContainer {
+        & .queue-card-wrapper {
+            .panel-heading {
+                height: 0px;
+                border-left: none !important;
+                border-right: none !important;
+                border-bottom: none !important;
+            }
         }
     }
 }
