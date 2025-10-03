@@ -15,9 +15,7 @@
         "certified": "No",
         "publisher": "Fortinet",
         "compatibility": [
-            "7.6.2",
-            "7.6.3",
-            "7.6.4"
+            "7.6.3"
         ]
     },
     "development": true
