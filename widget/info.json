@@ -19,5 +19,5 @@
         ],
         "help_online": "https:\/\/github.com\/fortinet-fortisoar\/solution-pack-threat-intel-management\/blob\/release\/3.0.0\/README.md"
     },
-    "development": true
+    "development": false
 }
