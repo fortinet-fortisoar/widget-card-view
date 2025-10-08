@@ -26,7 +26,8 @@
                 $scope.viewWidgetVars = {
                   // Create your translating static string variables here]
                   BTN_OK: widgetUtilityService.translate('cardView.BTN_OK'),
-                  NO_INPUT_REQUIRED: widgetUtilityService.translate('cardView.NO_INPUT_REQUIRED')
+                  HEADER_ADD_CARD_VIEW: widgetUtilityService.translate('cardView.HEADER_ADD_CARD_VIEW'),
+                  LABEL_NOT_CONFIGURABLE: widgetUtilityService.translate('cardView.LABEL_NOT_CONFIGURABLE')
                 };
               });
             }

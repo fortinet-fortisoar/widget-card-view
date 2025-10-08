@@ -1,6 +1,7 @@
 {
     "cardView": {
         "BTN_OK": "OK",
-        "NO_INPUT_REQUIRED": "Ce widget ne nécessite aucune saisie de configuration"
+        "HEADER_ADD_CARD_VIEW": "Ajouter une vue en carte",
+        "LABEL_NOT_CONFIGURABLE": "Ce widget est fourni en package et ne peut pas être utilisé séparément"
     }
 }

@@ -1,6 +1,7 @@
 {
     "cardView": {
         "BTN_OK": "確定",
-        "NO_INPUT_REQUIRED": "此小工具不需要設定輸入"
+        "HEADER_ADD_CARD_VIEW": "新增卡片檢視",
+        "LABEL_NOT_CONFIGURABLE": "此小工具已封裝，無法單獨使用"
     }
 }

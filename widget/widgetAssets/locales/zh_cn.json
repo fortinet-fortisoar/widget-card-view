@@ -1,6 +1,7 @@
 {
     "cardView": {
         "BTN_OK": "确定",
-        "NO_INPUT_REQUIRED": "这个小部件不需要配置输入。"
+        "HEADER_ADD_CARD_VIEW": "添加卡片视图",
+        "LABEL_NOT_CONFIGURABLE": "此小部件已打包，无法单独使用"
     }
 }
