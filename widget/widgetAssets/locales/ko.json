@@ -1,6 +1,7 @@
 {
     "cardView": {
         "BTN_OK": "확인",
-        "NO_INPUT_REQUIRED": "이 위젯은 설정 입력이 필요하지 않습니다."
+        "HEADER_ADD_CARD_VIEW": "카드 보기 추가",
+        "LABEL_NOT_CONFIGURABLE": "이 위젯은 번들로 제공되며 단독으로 사용할 수 없습니다"
     }
 }

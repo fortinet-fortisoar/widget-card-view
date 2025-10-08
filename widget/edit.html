@@ -5,14 +5,16 @@
 <form data-ng-submit="cancel()" class="noMargin" name="editWidgetForm" data-ng-class="{'state-wait': processing }"
     novalidate>
     <div class="modal-header">
-        <h3 class="modal-title col-md-9">{{viewWidgetVars.NO_INPUT_REQUIRED}}</h3>
+        <h3 class="modal-title col-md-9">{{viewWidgetVars.HEADER_ADD_CARD_VIEW}}</h3>
         <button type="button" class="close" data-ng-click="cancel()" data-dismiss="modal" aria-label="Close"
             id="close-edit-widget-form-btn">
             <div aria-hidden="true" class="version-button">+</div>
         </button>
     </div>
     <div class="modal-body">
-        <div></div>
+        <div>
+            <span>{{viewWidgetVars.LABEL_NOT_CONFIGURABLE}}</span>
+        </div>
     </div>
     <div class="modal-footer">
         <button id="edit-widget-save" type="submit" class="btn btn-sm btn-primary"><i

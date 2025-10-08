@@ -1,6 +1,7 @@
 {
     "cardView": {
         "BTN_OK": "はい",
-        "NO_INPUT_REQUIRED": "このウィジェットは設定入力を必要としません。"
+        "HEADER_ADD_CARD_VIEW": "カードビューを追加",
+        "LABEL_NOT_CONFIGURABLE": "このウィジェットはバンドルされており、単独では使用できません"
     }
 }
