@@ -46,10 +46,14 @@
 
         function loadAttributes() {
           var entity = new Entity($scope.config.module);
+          $scope.pickListFields = [];
           entity.loadFields().then(function() {
             for (var key in entity.fields) {
               if (entity.fields[key].type === 'datetime') {
                 entity.fields[key].type = 'datetime.quick';
+              }
+              if (entity.fields[key].type === "picklist") {
+                $scope.pickListFields.push(entity.fields[key]);
               }
               // Remove required fields since conditionals shouldn't enforce this
               entity.fields[key].required = false;
@@ -127,6 +131,9 @@
             }
             if($scope.config.imageURL && _.indexOf($scope.config.totalFields , $scope.config.imageURL) === -1 ) {
               $scope.config.totalFields.push($scope.config.imageURL);
+            }
+            if($scope.config.cardLeftBorder) {
+              $scope.config.totalFields.push($scope.config.cardLeftBorder);
             }
             $uibModalInstance.close($scope.config);
         }

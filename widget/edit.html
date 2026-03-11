@@ -115,6 +115,15 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="cardTilesLeftBorder" class="control-label">Card Left Border</label>
+                <select id="cardTilesLeftBorder" name="cardTilesLeftBorder" class="form-control"
+                data-ng-model="config.cardLeftBorder"
+                data-ng-options="field.name as field.title for field in pickListFields | orderBy: 'title'">
+                <option value="" class="" selected="selected">Select a field</option>
+                </select>
+            </div>
+
             <!-- <div class="margin-top-md">
                 <label class="control-label">Show Content in</label>
                 <div class="radio margin-5-0">

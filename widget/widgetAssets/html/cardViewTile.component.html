@@ -2,7 +2,7 @@
   MIT License
   Copyright (c) 2026 Fortinet Inc
   Copyright end -->
-<div class="mp-tile-container" data-ng-click="$ctrl.onClickDetailPanel($ctrl.contentItem)">
+<div class="mp-tile-container" data-ng-click="$ctrl.onClickDetailPanel($ctrl.contentItem)" data-ng-style="{'border-left': $ctrl.config.cardLeftBorder ? ('2px solid ' + $ctrl.cardBorder[$ctrl.config.cardLeftBorder].value.color) : 'none'}">
     <div class="mp-tile-card position-relative">
         <div class="mp-tile-content">
             <div class="mp-tile-images-container">

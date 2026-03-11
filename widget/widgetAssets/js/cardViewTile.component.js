@@ -19,6 +19,7 @@
     $onInit() {
       self.processing = false;
       self.fieldsConfig = {};
+      self.cardBorder = {};
       angular.forEach(self.config.totalFields, function(field) {
         angular.forEach(self.fieldsArray, function(fieldValue) {
           if(fieldValue.name === field) {
@@ -29,7 +30,11 @@
             }else if(fieldValue.type === 'number' || fieldValue.type === 'decimal') {
               newField.value = parseFloat(newField.value);
             }
-            self.fieldsConfig[field] = newField;
+            if(field !== self.config.cardLeftBorder) {
+              self.fieldsConfig[field] = newField;
+            }else {
+              self.cardBorder[field] = newField;
+            }
           }
         });
       });

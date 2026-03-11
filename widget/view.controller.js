@@ -19,18 +19,6 @@
           logic: 'AND',
         }
       };
-      // $scope.config = {
-      //   module: 'alerts',
-      //   mapping: {
-      //     showImg: true,
-      //     image: 'imageURL',
-      //     cardHeader: 'title',
-      //     cardSubHeader: 'description',
-      //     subtitle1: 'threatActorType',
-      //     subtitle2: 'recordTags',
-      //   },
-      //   filters: []
-      // };
       $scope.config = config;
       $scope.config.filters = [];
       $scope.searchContent = searchContent;
@@ -132,7 +120,7 @@
           angular.extend($scope.fields, entity.getRelationshipFields());
           $scope.fieldsArray = entity.getFormFieldsArray();
           $scope.filterColumns = gridColumns.create($scope.fieldsArray, $scope.pagedCollection.query, $scope.config.totalFields);
-          $scope.filterColumns = _.filter($scope.filterColumns, function(column) { return (_.indexOf($scope.config.totalFields,column.filter.field.name) !== -1) && (column.filter.field.name !== $scope.config.imageURL) ;});
+          $scope.filterColumns = _.filter($scope.filterColumns, function(column) { return (_.indexOf($scope.config.totalFields,column.filter.field.name) !== -1) && (column.filter.field.name !== $scope.config.imageURL) && (column.filter.field.name !== $scope.config.cardLeftBorder) ;});
           $scope.filterColumns = _.pluck($scope.filterColumns, 'filter');
           angular.forEach($scope.fieldsArray, function (field) {
             angular.forEach($scope.config.fields, function(fieldValue) {
