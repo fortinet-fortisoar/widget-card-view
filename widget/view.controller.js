@@ -1,16 +1,16 @@
 /* Copyright start
   MIT License
-  Copyright (c) 2025 Fortinet Inc
+  Copyright (c) 2026 Fortinet Inc
   Copyright end */
 'use strict';
 (function () {
     angular
       .module('cybersponse')
-      .controller('cardView100Ctrl', cardView100Ctrl);
+      .controller('cardView200Ctrl', cardView200Ctrl);
 
-    cardView100Ctrl.$inject = ['$scope', 'widgetUtilityService', 'PagedCollection', 'Query', 'widgetBasePath', '_', 'config', 'Entity', '$rootScope'];
+    cardView200Ctrl.$inject = ['$scope', 'widgetUtilityService', 'PagedCollection', 'Query', 'widgetBasePath', '_', 'config', 'Entity', '$rootScope', 'gridColumns'];
 
-    function cardView100Ctrl($scope, widgetUtilityService, PagedCollection, Query, widgetBasePath, _, config, Entity, $rootScope) {
+    function cardView200Ctrl($scope, widgetUtilityService, PagedCollection, Query, widgetBasePath, _, config, Entity, $rootScope, gridColumns) {
       $scope.params = {
         searchText: '',
         query: {
@@ -19,27 +19,20 @@
           logic: 'AND',
         }
       };
-      $scope.config = {
-        module: 'threat_actors',
-        mapping: {
-          showImg: true,
-          image: 'imageURL',
-          cardHeader: 'title',
-          cardSubHeader: 'description',
-          subtitle1: 'threatActorType',
-          subtitle2: 'recordTags',
-        },
-        filters: {
-          keyStoreName: 'threat-intel-management-threat-actor-filter',
-          moduleField: 'key',
-          mapping: {
-            threatActorType: 'Threat Actor Type',
-            targetedIndustries: 'Targeted Industries',
-            tag: 'Tags'
-          }
-        }
-      };
-
+      // $scope.config = {
+      //   module: 'alerts',
+      //   mapping: {
+      //     showImg: true,
+      //     image: 'imageURL',
+      //     cardHeader: 'title',
+      //     cardSubHeader: 'description',
+      //     subtitle1: 'threatActorType',
+      //     subtitle2: 'recordTags',
+      //   },
+      //   filters: []
+      // };
+      $scope.config = config;
+      $scope.config.filters = [];
       $scope.searchContent = searchContent;
       $scope.clearSearch = clearSearch;
       $scope.reloadContent = reloadContent;
@@ -53,7 +46,8 @@
       $scope.onViewUpdated = onViewUpdated;
       $scope.theme = $rootScope.theme.id;
 
-      function getList(forceReload) {
+      function getList(forceReload, searchText) {
+        let query;
         if (forceReload) {
           $scope.pageCount = 1;
           $scope.allContentItems = [];
@@ -63,16 +57,26 @@
           $scope.params.query.filters = [];
         }
         $scope.params.query.page = $scope.pageCount || 1;
-        var pagedCollection = new PagedCollection($scope.config.module, null);
-        pagedCollection.query = new Query($scope.params.query);
-        pagedCollection.query.__selectFields = [$scope.config.mapping.cardHeader, $scope.config.mapping.image, $scope.config.mapping.cardSubHeader, $scope.config.mapping.subtitle1, $scope.config.mapping.subtitle2];
-        pagedCollection.currPageNum = $scope.pageCount || 1;
-        pagedCollection.loadGridRecord(pagedCollection.query).then(function () {
+        if ($scope.config.query) {
+          var queryConfig = angular.copy($scope.config);
+          query = new Query({
+            widgetQuery: queryConfig.query,
+            limit: $scope.config.query.limit
+          });
+        }
+        $scope.pagedCollection.columns = angular.copy($scope.config.totalFields);
+        $scope.pagedCollection.query = query;
+        $scope.pagedCollection.query.__selectFields = angular.copy($scope.config.totalFields);
+        $scope.pagedCollection.currPageNum = $scope.pageCount || 1;
+        if(searchText) {
+          $scope.pagedCollection.query.search = $scope.params.searchText;
+        }
+        $scope.pagedCollection.loadGridRecord($scope.pagedCollection.query).then(function () {
             if($scope.pageCount === 1){
                 $scope.allContentItems = [];
             }
-            $scope.allContentItems.push(...pagedCollection.data['hydra:member']);
-            $scope.totalContentItems = pagedCollection.data['hydra:totalItems'];
+            $scope.allContentItems.push(...$scope.pagedCollection.data['hydra:member']);
+            $scope.totalContentItems = $scope.pagedCollection.data['hydra:totalItems'];
             $scope.allContentItemsCount = $scope.allContentItems.length;
             $scope.processing = false;
           })
@@ -101,41 +105,7 @@
       }
 
       function searchContent() {
-        const searchText = ($scope.params.searchText || '').trim();
-        const filters = $scope.params.query.filters || [];
-
-        if (searchText) {
-          // Apply title filter
-          if(filters.length === 0){
-            $scope.params.query.filters = [{
-              field: 'title',
-              operator: 'like',
-              value: `%${searchText}%`,
-              _operator: 'like'
-            }];
-          }else {
-            const titleFilter = filters.find(f => f.field === 'title');
-            if (titleFilter) {
-              titleFilter.value = `%${searchText}%`;
-            } else {
-              filters.push({
-                field: 'title',
-                operator: 'like',
-                value: `%${searchText}%`,
-                _operator: 'like'
-              });
-            }
-          }
-        } else {
-          // Remove existing title filter
-          const index = filters.findIndex(f => f.field === 'title');
-          if (index > -1) {
-            filters.splice(index, 1);
-          }
-        }
-
-        $scope.pageCount = 1;
-        $scope.getList(); 
+        $scope.getList(null, true);
       }
 
       function clearSearch() {
@@ -146,48 +116,11 @@
         $scope.getList(true);
       }
 
-      // Helper: add, update, or remove filter
-      function updateFilter(field, operator, values) {
-        const index = $scope.params.query.filters.findIndex(f => f.field === field);
-
-        if (values && values.length > 0) {
-          if (index > -1) {
-            $scope.params.query.filters[index].value = values;
-          } else {
-            $scope.params.query.filters.push({ field, operator, value: values });
-          }
-        } else if (index > -1) {
-          $scope.params.query.filters.splice(index, 1);
-        }
-      }
-
       function onViewUpdated($event) {
-        $scope.pageCount = 1;
-        $scope.params.query.filters = $scope.params.query.filters || [];
-
-        // Extract values
-        const threatActorValues = $event.filterList.filter(f => f.searchFor === 'threatActorType').map(f => f.key);
-        const targetedIndustries = $event.filterList.filter(f => f.searchFor === 'targetedIndustries').map(f => f.key);
-        const tagKeys = $event.filterList.filter(f => f.searchFor === 'tag').map(f => f.key);
-
-        // --- Apply filters ---
-        updateFilter('threatActorType', 'in', threatActorValues);
-
-        // Remove old targetedIndustries filters
-        $scope.params.query.filters = $scope.params.query.filters.filter(f => f.field !== 'targetedIndustries');
-
-        // Add new targetedIndustries filters
-        targetedIndustries.forEach(value => {
-          $scope.params.query.filters.push({
-            field: 'targetedIndustries',
-            operator: 'like',
-            value: `%${value}%`
-          });
-        });
-
-        updateFilter('recordTags', 'in', tagKeys);
-
-        $scope.getList();
+        $scope.allContentItems = [];
+        $scope.allContentItems.push(...$event.data['hydra:member']);
+        $scope.totalContentItems = $event.data['hydra:totalItems'];
+        $scope.allContentItemsCount = $scope.allContentItems.length;
       }
 
       function loadAttributes() {
@@ -198,12 +131,23 @@
           $scope.fields = entity.getFormFields();
           angular.extend($scope.fields, entity.getRelationshipFields());
           $scope.fieldsArray = entity.getFormFieldsArray();
+          $scope.filterColumns = gridColumns.create($scope.fieldsArray, $scope.pagedCollection.query, $scope.config.totalFields);
+          $scope.filterColumns = _.filter($scope.filterColumns, function(column) { return (_.indexOf($scope.config.totalFields,column.filter.field.name) !== -1) && (column.filter.field.name !== $scope.config.imageURL) ;});
+          $scope.filterColumns = _.pluck($scope.filterColumns, 'filter');
+          angular.forEach($scope.fieldsArray, function (field) {
+            angular.forEach($scope.config.fields, function(fieldValue) {
+              if(fieldValue === field.name) {
+                $scope.config.filters.push(field);
+              }
+            });
+          });
         });
       }
 
       function init() {
         // To handle backward compatibility for widget
         $scope.processing = true;
+        $scope.pagedCollection = new PagedCollection($scope.config.module, null);
         _handleTranslations();
         getList();
         loadAttributes();

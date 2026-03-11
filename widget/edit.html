@@ -1,8 +1,8 @@
 <!-- Copyright start
   MIT License
-  Copyright (c) 2025 Fortinet Inc
+  Copyright (c) 2026 Fortinet Inc
   Copyright end -->
-<form data-ng-submit="cancel()" class="noMargin" name="editWidgetForm" data-ng-class="{'state-wait': processing }"
+<form data-ng-submit="save()" class="noMargin" name="editWidgetForm" data-ng-class="{'state-wait': processing }"
     novalidate>
     <div class="modal-header">
         <h3 class="modal-title col-md-9">{{viewWidgetVars.HEADER_ADD_CARD_VIEW}}</h3>
@@ -12,12 +12,163 @@
         </button>
     </div>
     <div class="modal-body">
-        <div>
-            <span>{{viewWidgetVars.LABEL_NOT_CONFIGURABLE}}</span>
+        <div class="form-group"
+            data-ng-class="{ 'has-error': editWidgetForm.module.$invalid && editWidgetForm.module.$touched }"
+            data-ng-if="(modules || playbookModules) && !hideModuleChoice">
+            <label for="module-select" class="control-label">{{ ::'COMPONENTS.VIEW_TEMPLATES.WIDGETS.CHART.DATA_SOURCE'
+                | translate }}</label>
+            <select name="module" id="module-select" class="form-control"
+                data-ng-options="module.type as module.name for module in modules | playbookModules"
+                data-ng-model="config.module" data-ng-change="config.query.filters=[];">
+                <option value="">{{ ::'COMPONENTS.VIEW_TEMPLATES.WIDGETS.FILE.SELECT_A_MODULE' | translate }}</option>
+            </select>
+            <div data-cs-messages="editWidgetForm.module"></div>
+        </div>
+        <div data-ng-if="config.module">
+            <div>
+                <div class="navbar-inverse margin-bottom-md">
+                    <h6>{{ ::'COMPONENTS.VIEW_TEMPLATES.WIDGETS.GRID.LIMIT' | translate }}</h6>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group" data-ng-if="state.current.name !== 'main.modules.list'">
+                                <input type="number" name="limit" class="form-control"
+                                    data-ng-model="config.query.limit" data-ng-disabled="allRecords" min="1"
+                                    data-ng-blur="checkMinLimit()" pattern="\d+" />
+                                <span class="input-group-btn">
+                                    <button type="button" data-ng-click="config.query.limit = ALL_RECORDS_SIZE"
+                                        class="btn btn-primary"
+                                        data-ng-disabled="config.query.limit === ALL_RECORDS_SIZE">{{
+                                        ::'COMPONENTS.VIEW_TEMPLATES.WIDGETS.GRID.ALL_RESULTS' | translate }}</button>
+                                </span>
+                            </div>
+                            <div data-ng-if="state.current.name === 'main.modules.list'">
+                                <select class="form-control" data-ng-model="config.query.limit"
+                                    data-ng-options="pageSize as pageSize for pageSize in paginationPageSizes"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="row">
+                    <div class="col-sm-12 navbar-inverse margin-bottom-md">
+                        <h6>{{ ::'COMPONENTS.GRID.QUERY.FILTER_CRITERIA' | translate }}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group"
+                            data-ng-class="{ 'has-error': editWidgetForm.filters.$invalid && editWidgetForm.filters.$touched }">
+                            <div data-cs-conditional data-ng-if="params.fields && params.fields.length !==0"
+                                data-fields="allFields" data-reset-field="allFields" data-mode="'queryFilters'"
+                                data-ng-model="config.query" data-parent-form="editWidgetForm"
+                                data-enable-expression="(page==='dashboard' || page==='reporting')"
+                                data-show-uuid="true" data-form-name="'editWidgetForm'"></div>
+                            <div data-cs-messages="editWidgetForm.filters"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 navbar-inverse margin-bottom-md">
+                    <h6>{{ ::'COMPONENTS.VIEW_TEMPLATES.WIDGETS.FORM_GROUP.DEFAULT_SORT' | translate }}</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        <div data-cs-default-sort data-ng-if="params.fieldsArray" data-ng-model="config.query"
+                            data-fields-array="params.fieldsArray" data-parent-form="editWidgetForm"></div>
+                        <div data-cs-messages="cardForm.sortBy"></div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="navbar-inverse margin-bottom-md">
+                <h6>Card Header Content</h6>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <select name="{{ header.field }}" id="{{ header.field }}" class="form-control"
+                        data-ng-model="config.imageURL"
+                        data-ng-options="field.name as field.title for field in htmltextFieldArray | filter: columnNotExists | orderBy: 'title'">
+                        <option value="">{{ ::'COMPONENTS.FILTER.CONDITIONAL.SELECT_A_FIELD' | translate }}</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="navbar-inverse margin-bottom-md">
+                <h6>Card Title</h6>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <select name="{{ card.field }}" id="{{ card.field }}" class="form-control"
+                        data-ng-model="config.title"
+                        data-ng-options="field.name as field.title for field in textFieldArray | filter: columnNotExists | orderBy: 'title'">
+                        <option value="">{{ ::'COMPONENTS.FILTER.CONDITIONAL.SELECT_A_FIELD' | translate }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- <div class="margin-top-md">
+                <label class="control-label">Show Content in</label>
+                <div class="radio margin-5-0">
+                    <label class="checkbox-inline">
+                        <input id="onlyValue" type="radio" name="onlyValue"
+                            data-ng-model="config.view" value="onlyValue">&nbsp;&nbsp;Only Value&nbsp;&nbsp;&nbsp;&nbsp;
+                    </label>
+                    <label class="checkbox-inline">
+                        <input id="keyValue" type="radio" name="keyValue"
+                            data-ng-model="config.view" value="keyValue">&nbsp;&nbsp;key Value
+                    </label>
+                </div>
+            </div> -->
+
+            <div class="navbar-inverse margin-bottom-md">
+                <h6>Fields</h6>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <select name="{{ column.field }}" id="{{ column.field }}" class="form-control"
+                        data-ng-model="newField"
+                        data-ng-options="field.name as field.title for field in params.fieldsArray | filter: columnNotExists | orderBy: 'title'">
+                        <option value="">{{ ::'COMPONENTS.FILTER.CONDITIONAL.SELECT_A_FIELD' | translate }}</option>
+                    </select>
+                </div>
+                <div class="col-sm-4 padding-left-0">
+                    <button type="button" class="btn btn-primary" data-ng-click="addField(newField)"
+                        data-ng-disabled="config.fields.length >=4 ">Add Field</button>
+                </div>
+            </div>
+            <ul id="fields-editor" class="list-group margin-top-md clearfix" data-as-sortable
+                data-ng-model="config.fields">
+
+                <li id="draggable-item-all{{$index}}" data-ng-repeat="field in config.fields" as-sortable-item>
+                    <div as-sortable-item-handle class="attribute-sortable-item" data-tooltip-placement="bottom">
+                        <div class="row">
+                        <div class="col-md-12 col-lg-6">{{ params.fields[field].title }}</div>
+                        <div class="col-md-12 col-lg-6 attribute-icons muted display-flex">
+                            <span data-ng-bind="{{ params.fields[field].title }}" class="padding-right-lg text-uppercase small margin-right-lg attribute-form-type margin-top-4" title="{{ params.fields[field].title }}"></span>
+                        </div>
+                        <div class="sortable-caret">
+                            <span class="icon icon-close text-danger pull-right margin-top-xsm margin-right-md"
+                        data-ng-click="removeField($index)"></span>
+                        </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="modal-footer">
         <button id="edit-widget-save" type="submit" class="btn btn-sm btn-primary"><i
-                class="icon icon-check margin-right-sm"></i>{{viewWidgetVars.BTN_OK}}</button>
+                class="icon icon-check margin-right-sm"></i>Save</button>
+        <button id="edit-widget-cancel" type="button" class="btn btn-sm btn-default" data-ng-click="cancel()"><i
+                class="icon icon-close margin-right-sm"></i>Close</button>
     </div>
 </form>
