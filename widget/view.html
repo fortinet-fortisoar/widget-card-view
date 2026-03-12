@@ -1,58 +1,69 @@
 <!-- Copyright start
   MIT License
-  Copyright (c) 2025 Fortinet Inc
+  Copyright (c) 2026 Fortinet Inc
   Copyright end -->
 <link rel="stylesheet" type="text/css" href="{{widgetCSS}}" />
 <div class="card-view-container">
     <div class="marketplace-container">
-        <div class="col-md-2 padding-0 default-animation animate__slideInLeft" data-ng-class="{'on-filter-collapsed':!marketPlaceFilterExpand, 'filterContainer-light': theme === 'light', 'filterContainer-steel': theme === 'steel', 'filterContainer-dark': theme === 'dark'}">
-            <card-view-filter-component on-view-change="onViewUpdated($event)" config="config" data-ng-show="marketPlaceFilterExpand"></card-view-filter-component>
-            <button type="button" class="btn btn-sm btn-default marketplacefilter-collapseArrow" data-ng-click="toggleFilterPanel()">
-                <i class="fa font-size-16" data-ng-class="marketPlaceFilterExpand?'fa-angle-double-left':'fa-angle-double-right'"></i>
+        <div class="display-flex">
+            <div class="filterContainer-wrapper default-animation animate__slideInLeft" data-ng-class="{'on-filter-collapsed': !marketPlaceFilterExpand}">
+                <card-view-filter-component data-ng-if="pagedCollection" on-view-change="onViewUpdated($event)" config="config" data-ng-show="marketPlaceFilterExpand" paged-collection="pagedCollection" filter-columns="filterColumns"></card-view-filter-component>
+                <button type="button" class="btn btn-sm btn-default marketplacefilter-collapseArrow" data-ng-click="toggleFilterPanel()">
+                    <i class="fa font-size-16" data-ng-class="marketPlaceFilterExpand?'fa-angle-double-left':'fa-angle-double-right'"></i>
                 </button>
-            <div class="filter-text-rotate" data-ng-show="!marketPlaceFilterExpand">{{ ::'EDITOR.PORTER.FILTERS' | translate }}</div>
-            <div class="filter-section-divider" data-ng-show="!marketPlaceFilterExpand"></div>
-        </div>
-        <div data-ng-hide="collapsed" class="col-md-10 marketplace-content" data-ng-class="{'content-on-filter-collapse':!marketPlaceFilterExpand}">
-            <div class="marketplace-allcontent-container">
-                <div class="display-flex">
-                    <div class="content-reload-container padding-top-4">
-                        <button class="btn btn-default btn-sm font-size-12 margin-top-9 margin-left-md" type="button"
-                            data-ng-click="reloadContent();"><i class="icon icon-refresh"></i></button>
-                    </div>
-                <div class="padding-md padding-left-0 marketplace-search-container width-100pt">
-                    <div class="position-relative display-flex widget-searchBox align-items-center element-default-bgcolor">
-                        <span class="icon icon-search margin-right-md padding-left-20 position-absolute"></span>
-                        <input id="threat-actor-search" type="text" class="form-control input-md marketplace-search-border-color padding-left-45 padding-right-25 contentSearch"
-                            placeholder="{{ 'APP.LABEL.SEARCH' | translate }}" data-ng-model="params.searchText" ng-model-options="{debounce:500}"
-                            data-ng-change="searchContent()" aria-invalid="false">
-                        <span ng-show="params.searchText.length > 0" class="icon icon-close margin-left-20negative margin-top-2 position-relative right-10" data-ng-click="clearSearch()"></span>
+                <div class="filter-text-rotate" data-ng-show="!marketPlaceFilterExpand">{{ ::'EDITOR.PORTER.FILTERS' | translate }}</div>
+                <div class="filter-section-divider" data-ng-show="!marketPlaceFilterExpand"></div>
+            </div>
+            
+            <div class="default-animation marketplace-content-wrapper" data-ng-class="{'content-on-filter-collapse':!marketPlaceFilterExpand}">
+                <div class="marketplace-content">
+                    <div class="row margin-0">
+                        <div class="col-md-12 padding-left-0 padding-right-0">
+                            <div class="marketplace-allcontent-container">
+
+                                <!-- <div data-cs-query-header data-ng-show="true" data-query="pagedCollection.query" data-queries="pagedCollection.queries" wid="pagedCollection.contextId" data-entity="pagedCollection.entity" data-default-query="query"></div> -->
+
+                                <div class="display-flex marketplace-search-container padding-md">
+                                    <button class="btn btn-default btn-sm font-size-12" type="button"
+                                            data-ng-click="reloadContent();"><i class="icon icon-refresh"></i></button>    
+                                    <div class="padding-md marketplace-search-container width-100pt">
+                                        <div class="position-relative display-flex widget-searchBox align-items-center element-default-bgcolor">
+                                            <span class="icon icon-search margin-right-md padding-left-20 position-absolute"></span>
+                                            <input id="threat-actor-search" type="text" class="form-control input-md marketplace-search-border-color padding-left-45 padding-right-25 contentSearch"
+                                                placeholder="{{ 'APP.LABEL.SEARCH' | translate }}" data-ng-model="params.searchText" ng-model-options="{debounce:500}"
+                                                data-ng-change="searchContent()" aria-invalid="false">
+                                            <span ng-show="params.searchText.length > 0" class="icon icon-close margin-left-20negative margin-top-2 position-relative right-10" data-ng-click="clearSearch()"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-ng-class="{'filter-divider' : allContentItemsCount > 0}"></div>
+                            <div class="all-content-container" data-ng-class="{'tileWithFilter' : filterListing.length > 0}">
+                                <div class="loading-content" data-ng-show="processing">
+                                    <div class="loading-content-text">
+                                        <cs-spinner></cs-spinner><span>{{ ::'APP.LABEL.PLEASE_WAIT' | translate }}</span>
+                                    </div>
+                                </div>
+                                <div class="marketplace-allcontent-tiles" data-ng-hide="processing || allContentItemsCount === 0"
+                                    data-ng-class="{'tileWithFilter' : filterListing.length > 0, 'height-390': config.mapping.showImg, 'height-180': !config.mapping.showImg}">
+                                    <div class="clearfix">
+                                        <div class="col-md-12 marketplace-result padding-bottom-md padding-left-md padding-right-md padding-top-sm">
+                                            <p data-ng-show="allContentItemsCount > 0" class="font-size-12 margin-0 margin-top-6 pull-left">
+                                                {{ 'MARKETPLACE.MP_TEMPLATES.SHOWING_OUT_OF_TOTAL' | translate: { 'allContentItemsCount': (allContentItemsCount), 'totalContentItems': (totalContentItems) } }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="tileViewContainer margin-top-sm padding-left-xlg" on-scroll-to-bottom="loadNextContent()" data-offset-height="3" data-ng-if="allContentItemsCount > 0">
+                                        <card-view-tile-component config="config" fields-array="fieldsArray" content-item="contentItem" last-content-item="$last" data-ng-repeat="contentItem in allContentItems" data-refresh-list="searchContent()" data-widget-base-path="widgetBasePath"></card-view-tile-component>
+                                    </div>
+                                </div>
+                                <div class="emptyContent"  data-ng-class="{'emptyTileWithoutFilter' : filterListing.length === 0}"  data-ng-show="allContentItemsCount === 0" ng-include="'app/marketplace/templates/noResult.html'"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div data-ng-class="{'filter-divider' : allContentItemsCount > 0}"></div>
-            <div class="all-content-container" data-ng-class="{'tileWithFilter' : filterListing.length > 0}">
-                <div class="loading-content" data-ng-show="processing">
-                    <div class="loading-content-text">
-                        <cs-spinner></cs-spinner><span>{{ ::'APP.LABEL.PLEASE_WAIT' | translate }}</span>
-                    </div>
-                </div>
-                <div class="marketplace-allcontent-tiles" data-ng-hide="processing || allContentItemsCount === 0"
-                    data-ng-class="{'tileWithFilter' : filterListing.length > 0, 'height-390': config.mapping.showImg, 'height-180': !config.mapping.showImg}">
-                    <div class="clearfix">
-                        <div class="col-md-12 padding-0 padding-bottom-sm padding-top-sm marketplace-result">
-                            <p data-ng-show="allContentItemsCount > 0" class="font-size-12 margin-0 margin-top-6 pull-left">
-                                {{ 'MARKETPLACE.MP_TEMPLATES.SHOWING_OUT_OF_TOTAL' | translate: { 'allContentItemsCount': (allContentItemsCount), 'totalContentItems': (totalContentItems) } }}</p>
-                        </div>
-                    </div>
-                    <div class="tileViewContainer margin-top-sm padding-left-xlg" on-scroll-to-bottom="loadNextContent()" data-offset-height="3" data-ng-if="allContentItemsCount > 0">
-                        <card-view-tile-component config="config" fields-array="fieldsArray" content-item="contentItem" last-content-item="$last" data-ng-repeat="contentItem in allContentItems" data-refresh-list="searchContent()" data-widget-base-path="widgetBasePath"></card-view-tile-component>
-                    </div>
-                </div>
-                <div class="emptyContent"  data-ng-class="{'emptyTileWithoutFilter' : filterListing.length === 0}"  data-ng-show="allContentItemsCount === 0" ng-include="'app/marketplace/templates/noResult.html'"></div>
-              </div>
-          </div>
-      </div>
-  </div>
+        </div>
+    </div>
 </div>

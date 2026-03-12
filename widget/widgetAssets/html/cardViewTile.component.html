@@ -1,27 +1,49 @@
 <!-- Copyright start
   MIT License
-  Copyright (c) 2025 Fortinet Inc
+  Copyright (c) 2026 Fortinet Inc
   Copyright end -->
-<div class="mp-tile-container" data-ng-click="$ctrl.onClickDetailPanel($ctrl.contentItem)" data-ng-class="{'mp-tile-disabled': $ctrl.contentItem.status === 'Installing'}">
+<div class="mp-tile-container" data-ng-click="$ctrl.onClickDetailPanel($ctrl.contentItem)" data-ng-style="{'border-left': $ctrl.config.cardLeftBorder ? ('2px solid ' + $ctrl.cardBorder[$ctrl.config.cardLeftBorder].value.color) : 'none'}">
     <div class="mp-tile-card position-relative">
         <div class="mp-tile-content">
-            <div class="mp-tile-image-container" data-ng-if="$ctrl.config.mapping.showImg">
-                <img data-ng-if="$ctrl.contentItem.imageURL" data-ng-src="{{$ctrl.contentItem.imageURL}}" class="mp-tile-image">
-                <img data-ng-if="!$ctrl.contentItem.imageURL" data-ng-src="{{$ctrl.defaultImage}}" class="mp-tile-image">
+            <div class="mp-tile-images-container">
+                <div data-ng-if="$ctrl.config.imageURL" data-cs-field="$ctrl.fieldsConfig[$ctrl.config.imageURL]" data-ng-model="$ctrl.fieldsConfig[$ctrl.config.imageURL].value" data-ignore-editable="true" data-disabled="true" class="mp-tile-image"></div>
             </div>
-            <div class="mp-content-fixed-height" data-ng-class="{'margin-bottom-42': $ctrl.contentItem[$ctrl.config.mapping.subtitle2].length === 0 }">
-                <h4 class="mp-tile-title margin-top-4 word-break truncate" title="{{$ctrl.contentItem[$ctrl.config.mapping.cardHeader]}}">{{$ctrl.contentItem[$ctrl.config.mapping.cardHeader]}}</h4>
-                <div class="mp-tile-details mp-solutionpack-contents">
-                    <p class="margin-0 truncate" title="{{$ctrl.contentItem[$ctrl.config.mapping.subtitle1]}}"><span class="muted">Type:</span>{{$ctrl.contentItem[$ctrl.config.mapping.subtitle1]}}</p>
-                    <div class="margin-top-md">
-                        <div data-ng-if="$ctrl.contentItem[$ctrl.config.mapping.subtitle2].length > 0" title="{{$ctrl.contentItem[$ctrl.config.mapping.subtitle2][0]}}" class="display-block mp-solutionpack-contents-card font-size-12 text-capitalize truncate pull-left" data-ng-class="{'width-66per': $ctrl.contentItem[$ctrl.config.mapping.subtitle2].length > 1, 'max-width-100': $ctrl.contentItem[$ctrl.config.mapping.subtitle2].length == 1}">{{$ctrl.contentItem[$ctrl.config.mapping.subtitle2][0]}}</div><span class="font-size-12 active-color margin-top-lg margin-left-md" data-ng-if="$ctrl.contentItem[$ctrl.config.mapping.subtitle2].length > 1">+{{$ctrl.contentItem[$ctrl.config.mapping.subtitle2].length - 1}} more</span>
+            <div class="mp-content-fixed-height">
+                
+                <div data-ng-repeat="(key,field) in $ctrl.fieldsConfig" class="margin-top-sm font-size-13">
+                    <div data-ng-if="key !== $ctrl.config.imageURL && field.type !== 'richtext' && field.type !== 'tags'" 
+                        data-cs-view-field="field" 
+                        data-disabled="true" 
+                        data-allow-add-tag="false"
+                        uib-tooltip="{{field.value}}" 
+                        tooltip-append-to-body="true"
+                        tooltip-placement="top"
+                        tooltip-enable="field.value.length > 20">
+                    </div>
+
+                    <span data-ng-if="field.type === 'richtext'" 
+                        data-uib-tooltip-html="'{{field.value.replaceAll('\'', '')}}'" 
+                        data-tooltip-append-to-body="true" 
+                        data-tooltip-placement="top">
+                        <p class="mp-tile-description muted-80">{{ field.value | stripTags }}</p>
+                    </span>
+
+                    <div class="margin-top-md" data-ng-class="{'mp-solutionpack-contents': field.value.length > 0}" data-ng-if="field.type === 'tags'">
+                        <div title="{{field.value.join(', ')}}" class="display-block mp-solutionpack-contents-card font-size-12 text-capitalize truncate pull-left" 
+                            data-ng-class="{'width-66per': field.value.length > 1, 'max-width-100': field.value.length == 1}">
+                            {{field.value[0]}}
+                        </div>
+                        <span class="font-size-12 active-color margin-top-sm margin-left-md" 
+                            data-ng-if="field.value.length > 1"
+                            uib-tooltip="{{field.value.join(', ')}}"
+                            tooltip-append-to-body="true">
+                            +{{field.value.length - 1}} more
+                        </span>
                         <div class="clearfix"></div>
                     </div>
                 </div>
+                
             </div>
-            <span data-uib-tooltip-html="'{{$ctrl.getPlainText($ctrl.contentItem[$ctrl.config.mapping.cardSubHeader].replaceAll('\'', ''))}}'" data-tooltip-append-to-body="true" data-tooltip-placement="top">
-                <p class="mp-tile-description muted-80">{{ $ctrl.contentItem[$ctrl.config.mapping.cardSubHeader] | stripTags }}</p>
-            </span>
         </div>
     </div>
 </div>

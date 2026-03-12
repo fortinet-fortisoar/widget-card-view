@@ -1,6 +1,6 @@
 /* Copyright start
   MIT License
-  Copyright (c) 2025 Fortinet Inc
+  Copyright (c) 2026 Fortinet Inc
   Copyright end */
 'use strict';
 
@@ -18,6 +18,26 @@
 
     $onInit() {
       self.processing = false;
+      self.fieldsConfig = {};
+      self.cardBorder = {};
+      angular.forEach(self.config.totalFields, function(field) {
+        angular.forEach(self.fieldsArray, function(fieldValue) {
+          if(fieldValue.name === field) {
+            let newField = angular.copy(fieldValue);
+            newField.value = angular.copy(self.contentItem[field]);
+            if(fieldValue.type === 'datetime' || fieldValue.type === 'date') {
+              newField.value = self.$filter('unixToDate')(newField.value);
+            }else if(fieldValue.type === 'number' || fieldValue.type === 'decimal') {
+              newField.value = parseFloat(newField.value);
+            }
+            if(field !== self.config.cardLeftBorder) {
+              self.fieldsConfig[field] = newField;
+            }else {
+              self.cardBorder[field] = newField;
+            }
+          }
+        });
+      });
       if(self.$state.params && self.$state.params.uuid && self.contentItem.uuid === self.$state.params.uuid){
         self.onClickDetailPanel(self.contentItem);
       }
@@ -54,6 +74,6 @@
     controller: ['$state', '$filter', 'appModulesService', '$rootScope',
        cardViewTileComponent,
     ],
-    templateUrl: 'widgets/installed/cardView-1.0.0/widgetAssets/html/cardViewTile.component.html'
+    templateUrl: 'widgets/installed/cardView-2.0.0/widgetAssets/html/cardViewTile.component.html'
   });
 })();
