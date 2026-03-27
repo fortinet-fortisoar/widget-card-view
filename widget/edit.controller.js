@@ -132,7 +132,7 @@
             if($scope.config.imageURL && _.indexOf($scope.config.totalFields , $scope.config.imageURL) === -1 ) {
               $scope.config.totalFields.push($scope.config.imageURL);
             }
-            if($scope.config.cardLeftBorder) {
+            if($scope.config.cardLeftBorder && _.indexOf($scope.config.totalFields , $scope.config.cardLeftBorder) === -1 ) {
               $scope.config.totalFields.push($scope.config.cardLeftBorder);
             }
             $uibModalInstance.close($scope.config);
