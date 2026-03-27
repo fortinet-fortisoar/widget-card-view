@@ -7,80 +7,125 @@
     height: calc(100vh - 200px);
 }
 
-.card-view-container .mp-tile-container [data-cs-view-field] {
-    display: block;
-    max-height: 20px;
+/* 1. Main Tile Container - Rigid Height */
+.card-view-container .marketplace-container .marketplace-content .mp-tile-container {
+    height: 365px !important;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden !important;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.mp-tile-content {
+    padding: 10px 15px;
+    position: relative;
+}
+
+/* 2. Content Area - Dynamic Filling without scroll */
+.card-view-container .mp-content-fixed-height {
+    height: 165px !important; /* Remaining space after 200px image */
+    overflow: hidden !important; /* Strictly no scrollbar */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* 3. Description Row - Flexible filling */
+.card-view-container .description-row {
+    flex-grow: 1; /* Allows description to take available space if fields are missing */
+    max-height: 100px; /* Limits expansion to prevent pushing tags out */
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    margin-top: 4px;
+}
+
+.card-view-container .description-row p{
+    margin-top: 4px !important;
 }
 
 .card-view-container .mp-tile-description {
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 6 !important; /* Increased from 2 to 4 to fill empty gaps when data is missing */
     -webkit-box-orient: vertical;
     overflow: hidden;
-    height: 36px;
-    margin: 4px 0;
     line-height: 1.4;
+    margin: 0;
+    white-space: normal;
 }
 
-/* 3. Fix the tag container height */
+/* 4. Tags Section - Pushed to bottom */
+.card-view-container .tags-row {
+    margin-top: auto; /* Keeps tags at the bottom of the content area */
+    display: flex;
+    align-items: center;
+    padding-top: 4px;
+}
+
 .card-view-container .mp-solutionpack-contents {
     height: 30px;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 
-.card-view-container .marketplace-container .marketplace-content .mp-tile-container {
-    height: 365px;
-}
-
-.card-view-container .marketplace-container .marketplace-content .mp-tile-container .mp-tile-images-container {
+/* 5. Image Section */
+.card-view-container .mp-tile-images-container {
     height: 200px;
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
-.card-view-container .marketplace-container .marketplace-content-wrapper .marketplace-content .mp-tile-container {
-    border-radius: 10px;
+.card-view-container .mp-tile-images-container .mp-tile-image img,
+.card-view-container .marketplace-container .marketplace-content .mp-tile-container .mp-tile-images-container img {
+    width: 100% !important;
+    height: 200px;
+    object-fit: cover !important; /* Prevents stretching */
 }
 
-.card-view-container  .marketplace-container .marketplace-content-wrapper .marketplace-content .mp-tile-container .mp-tile-description {
-    margin: 0;
+/* 6. Inline Row Styling (Title: Value) */
+.card-view-container .field-row {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4px;
+    margin-top: 2px;
 }
 
+.card-view-container .kv-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    overflow: hidden;
+}
+
+.card-view-container .field-label {
+    font-weight: 600;
+    font-size: 11px;
+    color: #a0a0a0;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.card-view-container .field-value,
+.card-view-container .mp-tile-container [data-cs-view-field] {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    max-height: 20px;
+}
+
+/* 7. Shared Global Styles */
 .card-view-container .active-color {
     display: inline-block;
-    vertical-align: middle; /* Keeps it aligned with the tag next to it */
-}
-
-.card-view-container .marketplace-container .marketplace-content .mp-tile-container .mp-tile-images-container .mp-tile-image img{
-    width: 100%;
-    max-height: 200px;
-    object-fit: inherit !important;
-}
-
-.card-view-container .marketplace-container .marketplace-content .mp-tile-container .mp-content-fixed-height {
-    min-height: 60px;
-}
-
-.card-view-container .marketplace-container .marketplace-content .height-390 .mp-tile-container {
-    height: 390px;
+    vertical-align: middle;
 }
 
 .card-view-container .card-view-tile-container {
     display: inline-flex;
     width: 100%;
-}
-
-.card-view-container .filterContainer-light {
-    border-right: 1px solid #D8DEE4;
-}
-
-.card-view-container .filterContainer-steel {
-    border-right: 1px solid #0d1218;
-}
-
-.card-view-container .filterContainer-dark {
-    border-right: 1px solid #0d1218;
 }
 
 .card-view-container .all-content-container {
@@ -91,38 +136,33 @@
     height: auto !important;
 }
 
-.card-view-container .filterContent {
-    max-height: 350px;
-}
+/* 8. Filter and Accordion Styles */
+.card-view-container .filterContainer-light { border-right: 1px solid #D8DEE4; }
+.card-view-container .filterContainer-steel, 
+.card-view-container .filterContainer-dark { border-right: 1px solid #0d1218; }
+
+.card-view-container .filterContent { max-height: 350px; }
 
 .card-view-container .accordionContainer .filter-header .panel-heading {
     height: 45px !important;
-    border-left: none !important;
-    border-right: none !important;
     padding: 0 !important;
+    border: none !important;
 }
 
 .card-view-container .accordionContainer .searchByTags .panel-heading {
     height: auto !important;
-    border-bottom: inherit !important;
     padding: 0 !important;
 }
 
 #main-view-template .filterContainer .queue-card-wrapper .panel-heading {
     height: 0px;
-    border-left: none !important;
-    border-right: none !important;
-    border-bottom: none !important;
+    border: none !important;
 }
 
-.width-66per {
-    max-width: 66%;
-}
-
-.margin-bottom-42 {
-    margin-bottom: 42px;
-}
-
-.card-view-container .filterContainer-wrapper {
-    position: relative;
-}
+/* 9. Utility Classes */
+.width-66per { max-width: 66%; }
+.margin-bottom-42 { margin-bottom: 42px; }
+.card-view-container .filterContainer-wrapper { position: relative; }
+#main-view-template .card-view-container .panel-default > .panel-heading{
+  background-color: transparent;
+} 

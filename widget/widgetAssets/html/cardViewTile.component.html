@@ -2,47 +2,55 @@
   MIT License
   Copyright (c) 2026 Fortinet Inc
   Copyright end -->
-<div class="mp-tile-container" data-ng-click="$ctrl.onClickDetailPanel($ctrl.contentItem)" data-ng-style="{'border-left': $ctrl.config.cardLeftBorder ? ('2px solid ' + $ctrl.cardBorder[$ctrl.config.cardLeftBorder].value.color) : 'none'}">
+<div class="mp-tile-container" 
+     data-ng-click="$ctrl.onClickDetailPanel($ctrl.contentItem)" 
+     data-ng-style="{'border-left': $ctrl.config.cardLeftBorder ? ('2px solid ' + $ctrl.cardBorder[$ctrl.config.cardLeftBorder].value.color) : 'none'}">
     <div class="mp-tile-card position-relative">
         <div class="mp-tile-content">
             <div class="mp-tile-images-container">
-                <div data-ng-if="$ctrl.config.imageURL" data-cs-field="$ctrl.fieldsConfig[$ctrl.config.imageURL]" data-ng-model="$ctrl.fieldsConfig[$ctrl.config.imageURL].value" data-ignore-editable="true" data-disabled="true" class="mp-tile-image"></div>
+                <div data-ng-if="$ctrl.config.imageURL" 
+                     data-cs-field="$ctrl.fieldsConfig[$ctrl.config.imageURL]" 
+                     data-ng-model="$ctrl.fieldsConfig[$ctrl.config.imageURL].value" 
+                     data-ignore-editable="true" data-disabled="true" 
+                     class="mp-tile-image"></div>
             </div>
+            
             <div class="mp-content-fixed-height">
-                
-                <div data-ng-repeat="(key,field) in $ctrl.fieldsConfig" class="margin-top-sm font-size-13">
-                    <div data-ng-if="key !== $ctrl.config.imageURL && field.type !== 'richtext' && field.type !== 'tags'" 
-                        data-cs-view-field="field" 
-                        data-disabled="true" 
-                        data-allow-add-tag="false"
-                        uib-tooltip="{{field.value}}" 
-                        tooltip-append-to-body="true"
-                        tooltip-placement="top"
-                        tooltip-enable="field.value.length > 20">
+                <div data-ng-repeat="(key,field) in $ctrl.fieldsConfig" class="field-row" data-ng-class="{'font-size-13 muted-75': $ctrl.config.title !== key, 'margin-top-7': field.type !== 'richtext' && field.type !== 'html'}">
+                    
+                    <div data-ng-if="key !== $ctrl.config.imageURL && field.type !== 'richtext' && field.type !== 'html' && field.type !== 'tags'" class="kv-container">
+                        <span class="field-label" data-ng-if="$ctrl.config.view === 'keyValue'">{{field.title}}: </span>
+                        <div class="field-value" 
+                            data-cs-view-field="field" 
+                            data-disabled="true" 
+                            data-allow-add-tag="false"
+                            uib-tooltip="{{ field.type === 'datetime' ? (field.value | date: $root.appDatetimeFormat) : field.value }}" 
+                            tooltip-append-to-body="true"
+                            tooltip-placement="top">
+                        </div>
                     </div>
 
-                    <span data-ng-if="field.type === 'richtext'" 
-                        data-uib-tooltip-html="'{{field.value.replaceAll('\'', '')}}'" 
-                        data-tooltip-append-to-body="true" 
-                        data-tooltip-placement="top">
-                        <p class="mp-tile-description muted-80">{{ field.value | stripTags }}</p>
-                    </span>
+                    <div data-ng-if="key !== $ctrl.config.imageURL && (field.type === 'richtext' || field.type === 'html')" class="kv-container description-row">
+                        <span class="field-label" data-ng-if="$ctrl.config.view === 'keyValue'">{{field.title}}: </span>
+                        <p class="mp-tile-description field-value muted-80" 
+                           data-uib-tooltip-html="'{{field.value.replaceAll('\'', '')}}'" 
+                           data-tooltip-append-to-body="true">
+                            {{ field.value | stripTags }}
+                        </p>
+                    </div>
 
-                    <div class="margin-top-md" data-ng-class="{'mp-solutionpack-contents': field.value.length > 0}" data-ng-if="field.type === 'tags'">
-                        <div title="{{field.value.join(', ')}}" class="display-block mp-solutionpack-contents-card font-size-12 text-capitalize truncate pull-left" 
-                            data-ng-class="{'width-66per': field.value.length > 1, 'max-width-100': field.value.length == 1}">
-                            {{field.value[0]}}
+                    <div class="tags-row" data-ng-if="field.type === 'tags'">
+                        <span class="field-label" data-ng-if="$ctrl.config.view === 'keyValue'">{{field.title}}: </span>
+                        <div class="tags-wrapper" data-ng-class="{'mp-solutionpack-contents': field.value.length > 0}" >
+                            <div title="{{field.value.join(', ')}}" class="mp-solutionpack-contents-card truncate" data-ng-class="{'width-66per': field.value.length > 1, 'width-80': field.value.length == 1}">
+                                {{field.value[0]}}
+                            </div>
+                            <span class="active-color font-size-12 margin-left-md" data-ng-if="field.value.length > 1">
+                                +{{field.value.length - 1}} more
+                            </span>
                         </div>
-                        <span class="font-size-12 active-color margin-top-sm margin-left-md" 
-                            data-ng-if="field.value.length > 1"
-                            uib-tooltip="{{field.value.join(', ')}}"
-                            tooltip-append-to-body="true">
-                            +{{field.value.length - 1}} more
-                        </span>
-                        <div class="clearfix"></div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>
