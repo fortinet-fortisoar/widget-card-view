@@ -77,6 +77,10 @@
         $scope.marketPlaceFilterExpand = !$scope.marketPlaceFilterExpand;
       }
 
+      $scope.$on('updateViewTemplate', function(){
+        getList();
+      });
+
       function loadNextContent() {
         if($scope.allContentItemsCount < $scope.totalContentItems){
             $scope.pageCount += 1;
