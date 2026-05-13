@@ -33,8 +33,7 @@
                     <div data-ng-if="key !== $ctrl.config.imageURL && (field.type === 'richtext' || field.type === 'html')" class="kv-container description-row">
                         <span class="field-label" data-ng-if="$ctrl.config.view === 'keyValue'">{{field.title}}: </span>
                         <p class="mp-tile-description field-value muted-80" 
-                           data-uib-tooltip-html="'{{field.value.replaceAll('\'', '')}}'" 
-                           data-tooltip-append-to-body="true" tooltip-class="card-container-mp-tile-description-tooltip">
+                           data-ng-attr-uib-tooltip-html="((field.value | stripTags).trim().length > 0) ? field.value : undefined" data-tooltip-append-to-body="true" tooltip-class="card-container-mp-tile-description-tooltip">
                             {{ field.value | stripTags }}
                         </p>
                     </div>
